@@ -7,6 +7,7 @@ module Input_wrapper_datapath #(
 )(
     input clk,
     input rst,
+    input memWrite,
 
     input [ADDR_WIDTH-1:0]          address_PLIC,
     input [DATA_IN_WIDTH-1:0]       dataIn,
@@ -41,13 +42,15 @@ module Input_wrapper_datapath #(
     localparam PLIC_CLAIM_COMPLETE_ADDR     = PLIC_BASE_ADDR + 32'h00200004;
 
     wire [2:0] out_cnt;
+    wire En_datapath;
+    assign En_datapath = (correct_address && memWrite)  || En;
  
 
     Wrapper_shift_register #(.IN_WIDTH(8),.OUT_WIDTH(32)) shift_reg
     (
         .clk(clk),
         .rst(rst),
-        .load(En),
+        .load(En_datapath),
         .data_in(dataIn),
         .data_out(dataout_Input_wrapper)
     );

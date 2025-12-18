@@ -35,16 +35,16 @@ module Input_wrapper_controller #(parameter ADDR_WIDTH = 32)(
         n_state = `IDLE;
 
         case (p_state)
-            `IDLE: begin
+            `IDLE: 
+            begin
                 if (correct_address & memWrite)
                     n_state = `GET_DATA;
                 else
                     n_state = `IDLE;
             end
 
-            `FIRST_INC_CNT: begin n_state <= `GET_DATA; end
-
-            `GET_DATA: begin
+            `GET_DATA: 
+            begin
                 if (co)
                     n_state = `IDLE;
                 else
@@ -64,13 +64,15 @@ module Input_wrapper_controller #(parameter ADDR_WIDTH = 32)(
         Valid_Data = 1'b0;
 
         case (p_state)
-            `IDLE: begin
-                iniCnt = 1'b1;
-
+            `IDLE: 
+            begin
                 if (correct_address & memWrite) 
                 begin
                     En = 1'b1;
+                    incCnt = 1'b1;
                 end
+                else 
+                    iniCnt = 1'b1;
             end
 
             `GET_DATA: begin

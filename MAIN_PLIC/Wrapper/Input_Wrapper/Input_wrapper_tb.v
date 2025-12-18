@@ -43,7 +43,7 @@ module wrapper_tb();
         dataIn = 8'hAA;
         #40;
         memWrite = 0;
-        #40;
+        #38;
 
         // تست آدرس معتبر PLIC
         address_PLIC = 32'h20000004;

@@ -44,6 +44,7 @@ module Input_wrapper #(
     Input_wrapper_datapath datapath (
         .clk(clk),
         .rst(rst),
+        .memWrite(memWrite),
         .address_PLIC(address_PLIC),
         .dataIn(dataIn),
         .iniCnt(iniCnt),

@@ -1,0 +1,369 @@
+$date
+	Thu Dec 18 08:56:35 2025
+$end
+$version
+	ModelSim Version 2020.1
+$end
+$timescale
+	1ns
+$end
+
+$scope module wrapper_tb $end
+$var reg 1 ! clk $end
+$var reg 1 " rst $end
+$var reg 1 # memWrite $end
+$var reg 32 $ address_PLIC [31:0] $end
+$var reg 8 % dataIn [7:0] $end
+$var wire 1 & mem_data [31] $end
+$var wire 1 ' mem_data [30] $end
+$var wire 1 ( mem_data [29] $end
+$var wire 1 ) mem_data [28] $end
+$var wire 1 * mem_data [27] $end
+$var wire 1 + mem_data [26] $end
+$var wire 1 , mem_data [25] $end
+$var wire 1 - mem_data [24] $end
+$var wire 1 . mem_data [23] $end
+$var wire 1 / mem_data [22] $end
+$var wire 1 0 mem_data [21] $end
+$var wire 1 1 mem_data [20] $end
+$var wire 1 2 mem_data [19] $end
+$var wire 1 3 mem_data [18] $end
+$var wire 1 4 mem_data [17] $end
+$var wire 1 5 mem_data [16] $end
+$var wire 1 6 mem_data [15] $end
+$var wire 1 7 mem_data [14] $end
+$var wire 1 8 mem_data [13] $end
+$var wire 1 9 mem_data [12] $end
+$var wire 1 : mem_data [11] $end
+$var wire 1 ; mem_data [10] $end
+$var wire 1 < mem_data [9] $end
+$var wire 1 = mem_data [8] $end
+$var wire 1 > mem_data [7] $end
+$var wire 1 ? mem_data [6] $end
+$var wire 1 @ mem_data [5] $end
+$var wire 1 A mem_data [4] $end
+$var wire 1 B mem_data [3] $end
+$var wire 1 C mem_data [2] $end
+$var wire 1 D mem_data [1] $end
+$var wire 1 E mem_data [0] $end
+$var wire 1 F mem_write $end
+$var wire 1 G mem_addr [31] $end
+$var wire 1 H mem_addr [30] $end
+$var wire 1 I mem_addr [29] $end
+$var wire 1 J mem_addr [28] $end
+$var wire 1 K mem_addr [27] $end
+$var wire 1 L mem_addr [26] $end
+$var wire 1 M mem_addr [25] $end
+$var wire 1 N mem_addr [24] $end
+$var wire 1 O mem_addr [23] $end
+$var wire 1 P mem_addr [22] $end
+$var wire 1 Q mem_addr [21] $end
+$var wire 1 R mem_addr [20] $end
+$var wire 1 S mem_addr [19] $end
+$var wire 1 T mem_addr [18] $end
+$var wire 1 U mem_addr [17] $end
+$var wire 1 V mem_addr [16] $end
+$var wire 1 W mem_addr [15] $end
+$var wire 1 X mem_addr [14] $end
+$var wire 1 Y mem_addr [13] $end
+$var wire 1 Z mem_addr [12] $end
+$var wire 1 [ mem_addr [11] $end
+$var wire 1 \ mem_addr [10] $end
+$var wire 1 ] mem_addr [9] $end
+$var wire 1 ^ mem_addr [8] $end
+$var wire 1 _ mem_addr [7] $end
+$var wire 1 ` mem_addr [6] $end
+$var wire 1 a mem_addr [5] $end
+$var wire 1 b mem_addr [4] $end
+$var wire 1 c mem_addr [3] $end
+$var wire 1 d mem_addr [2] $end
+$var wire 1 e mem_addr [1] $end
+$var wire 1 f mem_addr [0] $end
+
+$scope module DUT $end
+$var parameter 32 g ADDR_WIDTH $end
+$var parameter 32 h DATA_IN_WIDTH $end
+$var parameter 32 i DATA_OUT_WIDTH $end
+$var wire 1 j clk $end
+$var wire 1 k rst $end
+$var wire 1 l memWrite $end
+$var wire 1 m address_PLIC [31] $end
+$var wire 1 n address_PLIC [30] $end
+$var wire 1 o address_PLIC [29] $end
+$var wire 1 p address_PLIC [28] $end
+$var wire 1 q address_PLIC [27] $end
+$var wire 1 r address_PLIC [26] $end
+$var wire 1 s address_PLIC [25] $end
+$var wire 1 t address_PLIC [24] $end
+$var wire 1 u address_PLIC [23] $end
+$var wire 1 v address_PLIC [22] $end
+$var wire 1 w address_PLIC [21] $end
+$var wire 1 x address_PLIC [20] $end
+$var wire 1 y address_PLIC [19] $end
+$var wire 1 z address_PLIC [18] $end
+$var wire 1 { address_PLIC [17] $end
+$var wire 1 | address_PLIC [16] $end
+$var wire 1 } address_PLIC [15] $end
+$var wire 1 ~ address_PLIC [14] $end
+$var wire 1 !! address_PLIC [13] $end
+$var wire 1 "! address_PLIC [12] $end
+$var wire 1 #! address_PLIC [11] $end
+$var wire 1 $! address_PLIC [10] $end
+$var wire 1 %! address_PLIC [9] $end
+$var wire 1 &! address_PLIC [8] $end
+$var wire 1 '! address_PLIC [7] $end
+$var wire 1 (! address_PLIC [6] $end
+$var wire 1 )! address_PLIC [5] $end
+$var wire 1 *! address_PLIC [4] $end
+$var wire 1 +! address_PLIC [3] $end
+$var wire 1 ,! address_PLIC [2] $end
+$var wire 1 -! address_PLIC [1] $end
+$var wire 1 .! address_PLIC [0] $end
+$var wire 1 /! dataIn [7] $end
+$var wire 1 0! dataIn [6] $end
+$var wire 1 1! dataIn [5] $end
+$var wire 1 2! dataIn [4] $end
+$var wire 1 3! dataIn [3] $end
+$var wire 1 4! dataIn [2] $end
+$var wire 1 5! dataIn [1] $end
+$var wire 1 6! dataIn [0] $end
+$var wire 1 G mem_addr [31] $end
+$var wire 1 H mem_addr [30] $end
+$var wire 1 I mem_addr [29] $end
+$var wire 1 J mem_addr [28] $end
+$var wire 1 K mem_addr [27] $end
+$var wire 1 L mem_addr [26] $end
+$var wire 1 M mem_addr [25] $end
+$var wire 1 N mem_addr [24] $end
+$var wire 1 O mem_addr [23] $end
+$var wire 1 P mem_addr [22] $end
+$var wire 1 Q mem_addr [21] $end
+$var wire 1 R mem_addr [20] $end
+$var wire 1 S mem_addr [19] $end
+$var wire 1 T mem_addr [18] $end
+$var wire 1 U mem_addr [17] $end
+$var wire 1 V mem_addr [16] $end
+$var wire 1 W mem_addr [15] $end
+$var wire 1 X mem_addr [14] $end
+$var wire 1 Y mem_addr [13] $end
+$var wire 1 Z mem_addr [12] $end
+$var wire 1 [ mem_addr [11] $end
+$var wire 1 \ mem_addr [10] $end
+$var wire 1 ] mem_addr [9] $end
+$var wire 1 ^ mem_addr [8] $end
+$var wire 1 _ mem_addr [7] $end
+$var wire 1 ` mem_addr [6] $end
+$var wire 1 a mem_addr [5] $end
+$var wire 1 b mem_addr [4] $end
+$var wire 1 c mem_addr [3] $end
+$var wire 1 d mem_addr [2] $end
+$var wire 1 e mem_addr [1] $end
+$var wire 1 f mem_addr [0] $end
+$var wire 1 & mem_data [31] $end
+$var wire 1 ' mem_data [30] $end
+$var wire 1 ( mem_data [29] $end
+$var wire 1 ) mem_data [28] $end
+$var wire 1 * mem_data [27] $end
+$var wire 1 + mem_data [26] $end
+$var wire 1 , mem_data [25] $end
+$var wire 1 - mem_data [24] $end
+$var wire 1 . mem_data [23] $end
+$var wire 1 / mem_data [22] $end
+$var wire 1 0 mem_data [21] $end
+$var wire 1 1 mem_data [20] $end
+$var wire 1 2 mem_data [19] $end
+$var wire 1 3 mem_data [18] $end
+$var wire 1 4 mem_data [17] $end
+$var wire 1 5 mem_data [16] $end
+$var wire 1 6 mem_data [15] $end
+$var wire 1 7 mem_data [14] $end
+$var wire 1 8 mem_data [13] $end
+$var wire 1 9 mem_data [12] $end
+$var wire 1 : mem_data [11] $end
+$var wire 1 ; mem_data [10] $end
+$var wire 1 < mem_data [9] $end
+$var wire 1 = mem_data [8] $end
+$var wire 1 > mem_data [7] $end
+$var wire 1 ? mem_data [6] $end
+$var wire 1 @ mem_data [5] $end
+$var wire 1 A mem_data [4] $end
+$var wire 1 B mem_data [3] $end
+$var wire 1 C mem_data [2] $end
+$var wire 1 D mem_data [1] $end
+$var wire 1 E mem_data [0] $end
+$var wire 1 F mem_write $end
+$var wire 1 7! En $end
+$var wire 1 8! iniCnt $end
+$var wire 1 9! initValue [2] $end
+$var wire 1 :! initValue [1] $end
+$var wire 1 ;! initValue [0] $end
+$var wire 1 <! incCnt $end
+$var wire 1 =! zero $end
+$var wire 1 >! correct_address $end
+$var wire 1 ?! co $end
+
+$scope module controller $end
+$var parameter 32 @! ADDR_WIDTH $end
+$var wire 1 j clk $end
+$var wire 1 k rst $end
+$var wire 1 ?! co $end
+$var wire 1 >! correct_address $end
+$var wire 1 m address_PLIC [31] $end
+$var wire 1 n address_PLIC [30] $end
+$var wire 1 o address_PLIC [29] $end
+$var wire 1 p address_PLIC [28] $end
+$var wire 1 q address_PLIC [27] $end
+$var wire 1 r address_PLIC [26] $end
+$var wire 1 s address_PLIC [25] $end
+$var wire 1 t address_PLIC [24] $end
+$var wire 1 u address_PLIC [23] $end
+$var wire 1 v address_PLIC [22] $end
+$var wire 1 w address_PLIC [21] $end
+$var wire 1 x address_PLIC [20] $end
+$var wire 1 y address_PLIC [19] $end
+$var wire 1 z address_PLIC [18] $end
+$var wire 1 { address_PLIC [17] $end
+$var wire 1 | address_PLIC [16] $end
+$var wire 1 } address_PLIC [15] $end
+$var wire 1 ~ address_PLIC [14] $end
+$var wire 1 !! address_PLIC [13] $end
+$var wire 1 "! address_PLIC [12] $end
+$var wire 1 #! address_PLIC [11] $end
+$var wire 1 $! address_PLIC [10] $end
+$var wire 1 %! address_PLIC [9] $end
+$var wire 1 &! address_PLIC [8] $end
+$var wire 1 '! address_PLIC [7] $end
+$var wire 1 (! address_PLIC [6] $end
+$var wire 1 )! address_PLIC [5] $end
+$var wire 1 *! address_PLIC [4] $end
+$var wire 1 +! address_PLIC [3] $end
+$var wire 1 ,! address_PLIC [2] $end
+$var wire 1 -! address_PLIC [1] $end
+$var wire 1 .! address_PLIC [0] $end
+$var wire 1 l memWrite $end
+$var reg 1 A! En $end
+$var wire 1 G mem_addr [31] $end
+$var wire 1 H mem_addr [30] $end
+$var wire 1 I mem_addr [29] $end
+$var wire 1 J mem_addr [28] $end
+$var wire 1 K mem_addr [27] $end
+$var wire 1 L mem_addr [26] $end
+$var wire 1 M mem_addr [25] $end
+$var wire 1 N mem_addr [24] $end
+$var wire 1 O mem_addr [23] $end
+$var wire 1 P mem_addr [22] $end
+$var wire 1 Q mem_addr [21] $end
+$var wire 1 R mem_addr [20] $end
+$var wire 1 S mem_addr [19] $end
+$var wire 1 T mem_addr [18] $end
+$var wire 1 U mem_addr [17] $end
+$var wire 1 V mem_addr [16] $end
+$var wire 1 W mem_addr [15] $end
+$var wire 1 X mem_addr [14] $end
+$var wire 1 Y mem_addr [13] $end
+$var wire 1 Z mem_addr [12] $end
+$var wire 1 [ mem_addr [11] $end
+$var wire 1 \ mem_addr [10] $end
+$var wire 1 ] mem_addr [9] $end
+$var wire 1 ^ mem_addr [8] $end
+$var wire 1 _ mem_addr [7] $end
+$var wire 1 ` mem_addr [6] $end
+$var wire 1 a mem_addr [5] $end
+$var wire 1 b mem_addr [4] $end
+$var wire 1 c mem_addr [3] $end
+$var wire 1 d mem_addr [2] $end
+$var wire 1 e mem_addr [1] $end
+$var wire 1 f mem_addr [0] $end
+$var reg 1 B! iniCnt $end
+$var reg 3 C! initValue [2:0] $end
+$var reg 1 D! incCnt $end
+$var reg 1 E! zero $end
+$var reg 1 F! Valid_Data $end
+$var reg 2 G! p_state [1:0] $end
+$var reg 2 H! n_state [1:0] $end
+$upscope $end
+
+$scope module datapath $end
+$var parameter 32 I! ADDR_WIDTH $end
+$var parameter 32 J! DATA_IN_WIDTH $end
+$var parameter 32 K! DATA_OUT_WIDTH $end
+$var parameter 32 L! NUM_SOURCES $end
+$var parameter 32 M! NUM_WORDS $end
+$var parameter 32 N! PRIORITY_INDEX_WIDTH $end
+$var parameter 32 O! ENABLE_INDEX_WIDTH $end
+$var parameter 32 P! NUM_EXTENSION $end
+$var parameter 32 Q! PLIC_BASE_ADDR $end
+$var parameter 32 R! PLIC_PRIORITY_START_ADDR $end
+$var parameter 32 S! PLIC_PRIORITY_STRIDE $end
+$var parameter 32 T! PLIC_PRIORITY_END_ADDR $end
+$var parameter 32 U! PLIC_PENDING_START_ADDR $end
+$var parameter 32 V! PLIC_PENDING_END_ADDR $end
+$var parameter 32 W! PLIC_ENABLE_START_ADDR $end
+$var parameter 32 X! PLIC_ENABLE_END_ADDR $end
+$var parameter 32 Y! PLIC_THRESHOLD_ADDR $end
+$var parameter 32 Z! PLIC_CLAIM_COMPLETE_ADDR $end
+$var wire 1 j clk $end
+$var wire 1 k rst $end
+$var wire 1 l memWrite $end
+$var wire 1 m address_PLIC [31] $end
+$var wire 1 n address_PLIC [30] $end
+$var wire 1 o address_PLIC [29] $end
+$var wire 1 p address_PLIC [28] $end
+$var wire 1 q address_PLIC [27] $end
+$var wire 1 r address_PLIC [26] $end
+$var wire 1 s address_PLIC [25] $end
+$var wire 1 t address_PLIC [24] $end
+$var wire 1 u address_PLIC [23] $end
+$var wire 1 v address_PLIC [22] $end
+$var wire 1 w address_PLIC [21] $end
+$var wire 1 x address_PLIC [20] $end
+$var wire 1 y address_PLIC [19] $end
+$var wire 1 z address_PLIC [18] $end
+$var wire 1 { address_PLIC [17] $end
+$var wire 1 | address_PLIC [16] $end
+$var wire 1 } address_PLIC [15] $end
+$var wire 1 ~ address_PLIC [14] $end
+$var wire 1 !! address_PLIC [13] $end
+$var wire 1 "! address_PLIC [12] $end
+$var wire 1 #! address_PLIC [11] $end
+$var wire 1 $! address_PLIC [10] $end
+$var wire 1 %! address_PLIC [9] $end
+$var wire 1 &! address_PLIC [8] $end
+$var wire 1 '! address_PLIC [7] $end
+$var wire 1 (! address_PLIC [6] $end
+$var wire 1 )! address_PLIC [5] $end
+$var wire 1 *! address_PLIC [4] $end
+$var wire 1 +! address_PLIC [3] $end
+$var wire 1 ,! address_PLIC [2] $end
+$var wire 1 -! address_PLIC [1] $end
+$var wire 1 .! address_PLIC [0] $end
+$var wire 1 /! dataIn [7] $end
+$var wire 1 0! dataIn [6] $end
+$var wire 1 1! dataIn [5] $end
+$var wire 1 2! dataIn [4] $end
+$var wire 1 3! dataIn [3] $end
+$var wire 1 4! dataIn [2] $end
+$var wire 1 5! dataIn [1] $end
+$var wire 1 6! dataIn [0] $end
+$var wire 1 8! iniCnt $end
+$var wire 1 <! incCnt $end
+$var wire 1 9! initValue [2] $end
+$var wire 1 :! initValue [1] $end
+$var wire 1 ;! initValue [0] $end
+$var wire 1 7! En $end
+$var wire 1 =! zero $end
+$var wire 1 ?! co $end
+$var wire 1 & dataout_Input_wrapper [31] $end
+$var wire 1 ' dataout_Input_wrapper [30] $end
+$var wire 1 ( dataout_Input_wrapper [29] $end
+$var wire 1 ) dataout_Input_wrapper [28] $end
+$var wire 1 * dataout_Input_wrapper [27] $end
+$var wire 1 + dataout_Input_wrapper [26] $end
+$var wire 1 , dataout_Input_wrapper [25] $end
+$var wire 1 - dataout_Input_wrapper [24] $end
+$var wire 1 . dataout_Input_wrapper [23] $end
+$var wire 1 / dataout_Input_wrapper [22] $end
+$var wire 1 0 dataout_Input_wrapper [21] $end
+$var wire 1 1 dataout_Input_wrapper [20] $end
+$var wire 1 2 dataout_Input_wrapper [19] $end
+$var wire 1 3 dataou

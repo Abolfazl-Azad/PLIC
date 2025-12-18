@@ -1,0 +1,36 @@
+C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Input_wrapper_controller.v {1 {vlog -work work -stats=none C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Input_wrapper_controller.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module Input_wrapper_controller
+
+Top level modules:
+	Input_wrapper_controller
+
+} {} {}} C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Input_wrapper.v {1 {vlog -work work -stats=none C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Input_wrapper.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module Input_wrapper
+
+Top level modules:
+	Input_wrapper
+
+} {} {}} C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Wrapper_counter.v {1 {vlog -work work -stats=none C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Wrapper_counter.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module wrapper_counter
+
+Top level modules:
+	wrapper_counter
+
+} {} {}} C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Input_wrapper_datapth.v {1 {vlog -work work -stats=none C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Input_wrapper_datapth.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module Input_wrapper_datapath
+
+Top level modules:
+	Input_wrapper_datapath
+
+} {} {}} C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Wrapper_Shift_register.v {1 {vlog -work work -stats=none C:/Users/aalim/Desktop/plic/PLIC_edgetrigger/MAIN_PLIC/Wrapper/Input_Wrapper/Wrapper_Shift_register.v
+Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+-- Compiling module Wrapper_shift_register
+
+Top level modules:
+	Wrapper_shift_register
+
+} {} {}}
