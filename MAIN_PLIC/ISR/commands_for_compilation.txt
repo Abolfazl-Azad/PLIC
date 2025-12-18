@@ -1,0 +1,4 @@
+make clean
+make
+make hex
+python3 ./baseFiles/srec2hex.py calculator.srec 

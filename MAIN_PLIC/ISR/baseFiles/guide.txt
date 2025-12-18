@@ -1,0 +1,21 @@
+# Compile command
+# compiles a c code and generate an object file
+riscv32-unknown-elf-gcc -march=rv32i_zicsr -o hello.o hello.c
+###################################################################################################################################################################
+# Assembler command
+# converts an object file to an assembly file
+riscv32-unknown-elf-objdump -d hello.o > hello.s
+###################################################################################################################################################################
+# Srecord command
+# converts an object file to an srecord file
+riscv32-unknown-elf-objcopy -O srec hello.o hello.srec
+###################################################################################################################################################################
+# Complete
+# compile c code and creates an object file using startup file and linker setups
+riscv32-unknown-elf-gcc -march=rv32i_zicsr -mabi=ilp32 -nostartfiles -T ./baseFiles/link.common.ld ./baseFiles/crt0.boot_M.S helloWorld/helloWorld.c -o hello.o 
+###################################################################################################################################################################
+# Example
+riscv32-unknown-elf-gcc -march=rv32i_zicsr -mabi=ilp32 -nostartfiles -T ./baseFiles/link.common.ld ./baseFiles/crt0.boot_M.S smallOS.c -o smallOS.out 
+riscv32-unknown-elf-objdump -d smallOS.out > smallOS.s
+riscv32-unknown-elf-objcopy -O srec smallOS.out smallOS.srec
+###################################################################################################################################################################
