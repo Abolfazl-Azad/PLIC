@@ -1,7 +1,6 @@
 `timescale 1ns/1ns
 
 `define IDLE      2'b00
-// `define WAIT_FOR_PLIC 2'b01
 `define Send_Data 2'b01
 
 module Output_wrapper_controller #(
@@ -15,7 +14,7 @@ module Output_wrapper_controller #(
 
     output reg iniCnt,
     output reg incCnt,
-    output reg [address-1 : 0] mem_addr
+    output reg memReady
 );
     //===========================
     // PLIC memory map parameters
@@ -51,8 +50,6 @@ module Output_wrapper_controller #(
             else 
                 correct_address = 1'b0;
         end
-    
-    assign mem_addr = address_PLIC;
 
     always @(posedge clk or posedge rst) begin
         if (rst)
@@ -82,17 +79,19 @@ module Output_wrapper_controller #(
     end
 
     always @(*) begin
-        {iniCnt, incCnt} = 3'b000;
+        {iniCnt, incCnt, memReady} = 4'b0000;
         case (p_state)
             `IDLE: begin
-                    iniCnt = 1'b1;  
+                    iniCnt = 1'b1; 
             end 
 
             `Send_Data: begin
                 if (co) begin
-                    incCnt = 1'b0;
+                    incCnt   = 1'b0;
+                    memReady = 1'b0;
                 end else begin
-                    incCnt = 1'b1;
+                    incCnt   = 1'b1;
+                    memReady = 1'b1;
                 end
             end
         endcase

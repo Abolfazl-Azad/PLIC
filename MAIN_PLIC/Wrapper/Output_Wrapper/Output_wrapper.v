@@ -11,8 +11,8 @@ module Output_wrapper #(
     input [ADDR_WIDTH-1:0] address_PLIC,
     input [DATA_IN_WIDTH-1:0] intrupt_ID,
 
-    output [ADDR_WIDTH-1:0] mem_addr,
-    output [DATA_OUT_WIDTH-1 : 0] dataout_Output_wrapper
+    output [DATA_OUT_WIDTH-1 : 0] dataout_Output_wrapper,
+    output memReady
 );
 
 wire iniCnt;
@@ -39,7 +39,7 @@ Output_wrapper_controller controller (
     .co(co),
     .iniCnt(iniCnt),
     .incCnt(incCnt),
-    .mem_addr(mem_addr)
+    .memReady(memReady)
 );
     
 endmodule
