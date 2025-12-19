@@ -8,7 +8,8 @@ module PLIC_WITH_WRAPPER
     input [7:0] mem_data,
     input [30 : 0] int_sig,
     output int_notif,
-    output [7:0] int_ID
+    output [7:0] int_ID,
+    output memReady
 );
 
 wire [31:0]int_ID_plic;
@@ -48,8 +49,8 @@ Output_wrapper Output_wrapper
     .memRead(mem_read),
     .address_PLIC(mem_addr),
     .intrupt_ID(int_ID_plic),
-    .mem_addr(mem_addr_plic),
-    .dataout_Output_wrapper(int_ID)
+    .dataout_Output_wrapper(int_ID),
+    .memReady(memReady)
 );
 
 endmodule

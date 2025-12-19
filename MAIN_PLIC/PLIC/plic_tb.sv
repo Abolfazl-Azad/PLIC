@@ -26,6 +26,7 @@ module plic_tb ();
     reg [NUM_SOURCES - 1 : 0] int_sig;
     wire int_notif;
     wire [7:0] int_ID;
+    reg [31:0] addr;
 
     PLIC_WITH_WRAPPER uut (
         .mem_addr(mem_addr),
@@ -36,7 +37,8 @@ module plic_tb ();
         .rst(rst),
         .int_sig(int_sig),
         .int_notif(int_notif),
-        .int_ID(int_ID)
+        .int_ID(int_ID),
+        .memReady(memReady)
     );
 
     // Clock generation
@@ -47,6 +49,7 @@ module plic_tb ();
     task write_reg(input [31:0] addr, input [31:0] data);
     begin
         @(posedge clk);
+        #5
         mem_addr  = addr;
         mem_data  = data [7:0];
         mem_write = 1;
@@ -67,6 +70,7 @@ module plic_tb ();
         mem_write = 1;
         mem_read  = 0;
         @(posedge clk);
+        @(posedge clk);
         mem_write = 0;
     end
     endtask
@@ -74,7 +78,6 @@ module plic_tb ();
     // -------------------------------------------------------------------------
     task configure_plic;
         integer i;
-        reg [31:0] addr;
     begin
         // Set all priorities
         for (i = 1; i <= NUM_SOURCES; i = i + 1) begin
@@ -118,7 +121,8 @@ module plic_tb ();
            @(posedge clk);
            @(posedge clk);
            @(posedge clk);
-           @(posedge clk);                  // wait for 4 clock cycle (adjust as needed)
+           @(posedge clk); 
+           @(posedge clk);                  // wait for 5 clock cycle (adjust as needed)
             mem_read  = 1'b0;
             mem_addr  = 32'd0;
         end
@@ -127,48 +131,16 @@ module plic_tb ();
     // ---------------------------------------------------------------
     task complete(input [31:0] complete_id);
         begin
-        mem_addr  = PLIC_CLAIM_COMPLETE_ADDR;
-        mem_data  = complete_id[7:0];
-        mem_write = 1'b1;
-        @(posedge clk); 
-        mem_addr  = PLIC_CLAIM_COMPLETE_ADDR;
-        mem_data  = complete_id[15:8];
-        mem_write = 1'b1;
-        @(posedge clk);
-        mem_addr  = PLIC_CLAIM_COMPLETE_ADDR;
-        mem_data  = complete_id[23:16];
-        mem_write = 1'b1;
-        @(posedge clk);
-        mem_addr  = PLIC_CLAIM_COMPLETE_ADDR;
-        mem_data  = complete_id[31:24];
-        mem_write = 1'b1;
-        @(posedge clk);                   // wait for 4 clock cycle
-        mem_write = 1'b0;
-        mem_addr  = 32'd0;
+            addr = PLIC_CLAIM_COMPLETE_ADDR;
+            write_reg(addr, complete_id);
         end
     endtask
 
     //-----------------------------------------------------------------
     task set_priority(input [31:0] source_id, input [31:0] prio);
     begin
-        mem_addr  = PLIC_PRIORITY_START_ADDR + ((source_id - 1) << 2);
-        mem_data  = prio[7:0];
-        mem_write = 1'b1;
-        @(posedge clk);
-        mem_addr  = PLIC_PRIORITY_START_ADDR + ((source_id - 1) << 2);
-        mem_data  = prio[15:8];
-        mem_write = 1'b1;
-        @(posedge clk);
-        mem_addr  = PLIC_PRIORITY_START_ADDR + ((source_id - 1) << 2);
-        mem_data  = prio[23:16];
-        mem_write = 1'b1;
-        @(posedge clk);
-        mem_addr  = PLIC_PRIORITY_START_ADDR + ((source_id - 1) << 2);
-        mem_data  = prio[31:24];
-        mem_write = 1'b1;
-        @(posedge clk);
-        mem_write = 1'b0;
-        mem_addr  = 32'd0;
+        addr  = PLIC_PRIORITY_START_ADDR + ((source_id - 1) << 2);
+        write_reg(addr, prio);
     end
     endtask
     //----------------------------------------------------------------
@@ -181,20 +153,22 @@ module plic_tb ();
         int_sig = 31'b1100000000000000000000000000000; 
         #10;
         $display("Source 31 , 30 with priorities 31 , 30, asserted interrupt request");
+        $display("  int_priority[31] = %0d", uut.plic.int_priority[31]);
         set_priority(31, 10);
+        repeat (2) @(posedge clk);
         $display("Priority of source 31 changed to 10");
-        repeat (2) @(posedge clk);  
+        $display("  int_priority[31] = %0d", uut.plic.int_priority[31]);
+          
 
         claim();
-        @(posedge clk);
 
-        if (int_ID == 32'd30)
+        if (uut.Output_wrapper.intrupt_ID == 32'd30)
             $display("  *** time = %0t\n  PASS: Correctly claimed source 30 after priority change\n", $time);
         else
-            $display("  *** time = %0t\n  FAIL: Claimed %0d instead of 30\n",$time, int_ID);
+            $display("  *** time = %0t\n  FAIL: Claimed %0d instead of 30\n",$time, uut.Output_wrapper.intrupt_ID);
 
         @(posedge clk);
-        complete(int_ID);
+        complete(uut.Output_wrapper.intrupt_ID);
         @(posedge clk);
         set_priority(31, 31);
         @(posedge clk);
@@ -213,19 +187,22 @@ module plic_tb ();
         #20;
         $display("Source 31 , 30 asserted interrupt requests.");
         claim();
-        @(posedge clk);
 
-        if (int_ID == 32'd30)
+        if (uut.Output_wrapper.intrupt_ID == 32'd30)
             $display("  *** time : %0t\n  PASS: Correctly claimed source 30", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 30", $time, int_ID);
+            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 30", $time, uut.Output_wrapper.intrupt_ID);
+        
+        #20;
+        int_sig = 31'b1000000000000000000000000000000;
+        complete(32'b00000000000000000000000000011110); 
+        #20;
         claim();
-        @(posedge clk);
 
-        if (int_ID == 32'd31)
+        if (uut.Output_wrapper.intrupt_ID == 32'd31)
             $display("  *** time : %0t\n  PASS: Correctly claimed source 31", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 31", $time, int_ID);
+            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 31", $time, uut.Output_wrapper.intrupt_ID);
         set_priority(31, 31);
     end
     endtask
@@ -240,7 +217,6 @@ module plic_tb ();
         #20;
         int_sig = 31'b1100000000000000000000000000000; //source 31,30
         #20;
-        claim();
         @(posedge clk);
         $display("Source 31 asserted interrupt request and cpu marked it as claimed");
         int_sig = 31'b0000000000000000000000000000000; 
@@ -251,12 +227,11 @@ module plic_tb ();
         $display("new interrupt request from source 31 and complete signal for it's previous request asserted simultaneously");
         claim();        
         $display("cpu claimed. ");
-        @(posedge clk);
 
-        if (int_ID == 32'd31)
+        if (uut.Output_wrapper.intrupt_ID == 32'd31)
             $display("  *** time : %0t\n  PASS: Correctly claimed source 31", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 31", $time, int_ID);
+            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 31", $time, uut.Output_wrapper.intrupt_ID);
         
     end
     endtask
@@ -264,24 +239,10 @@ module plic_tb ();
     //----------------------------------------------------------------
     task set_threshold(input [31:0] threshold_value);
         begin
-            mem_addr  = PLIC_THRESHOLD_ADDR;
-            mem_data  = threshold_value[7:0];
-            mem_write = 1'b1;
-            @(posedge clk);
-            mem_addr  = PLIC_THRESHOLD_ADDR;
-            mem_data  = threshold_value[15:8];
-            mem_write = 1'b1;
-            @(posedge clk);
-            mem_addr  = PLIC_THRESHOLD_ADDR;
-            mem_data  = threshold_value[23:16];
-            mem_write = 1'b1;
-            @(posedge clk);
-            mem_addr  = PLIC_THRESHOLD_ADDR;
-            mem_data  = threshold_value[31:24];
-            mem_write = 1'b1;
-            @(posedge clk);
-            mem_write = 1'b0;
-            mem_addr  = 32'd0;
+            
+        $display("time is :%0t", $time);
+            addr = PLIC_THRESHOLD_ADDR;
+            write_reg(addr, threshold_value);
         end
     endtask
 
@@ -299,13 +260,13 @@ module plic_tb ();
 
         set_threshold(10);
         $display("Threshold set to 10 (higher than source 5 priority which is 5)");
+        $display("Threshold : %0d", uut.plic.threshold);
 
         int_sig[5] = 1'b1;
         #20;
 
         claim();
-        @(posedge clk);
-        if (int_ID == 32'd0)
+        if (uut.Output_wrapper.intrupt_ID == 32'd0)
             $display("  *** time : %0t\n  PASS: Threshold correctly blocked interrupt 5", $time);
         else
             $display("  *** time : %0t\n  FAIL: Interrupt 5 incorrectly claimed with high threshold", $time);
@@ -328,8 +289,7 @@ module plic_tb ();
 
        
         claim();
-        @(posedge clk);
-        if (int_ID == 32'd0)
+        if (uut.Output_wrapper.intrupt_ID == 32'd0)
             $display("  *** time : %0t\n  PASS: Disabled source 5 correctly not claimable", $time);
         else
             $display("  *** time : %0t\n  FAIL: Disabled source 5 was still claimed!", $time);
@@ -341,8 +301,7 @@ module plic_tb ();
         end
         repeat (2) @(posedge clk);
         claim();
-        @(posedge clk);
-        complete(int_ID);
+        complete(uut.Output_wrapper.intrupt_ID);
         @(posedge clk);
 
         end
@@ -362,25 +321,23 @@ module plic_tb ();
         $display("First claim:");
         // First claim-complete cycle
         claim();
-        @(posedge clk); 
-        if (int_ID == 32'd31)
+        if (uut.Output_wrapper.intrupt_ID == 32'd31)
             $display("  *** time : %0t\n  PASS: Correctly claimed source 31", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 31", $time, int_ID);
+            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 31", $time, uut.Output_wrapper.intrupt_ID);
         int_sig = 31'b0100000000000000000000000000000; 
         repeat (2) @(posedge clk);
-        complete(int_ID);
+        complete(uut.Output_wrapper.intrupt_ID);
         @(posedge clk);  
         // Second claim-complete cycle
         $display("Second claim:");
         claim();
-        @(posedge clk); 
-        if (int_ID == 32'd30)
+        if (uut.Output_wrapper.intrupt_ID == 32'd30)
             $display("  *** time : %0t\n  PASS: Correctly claimed source 30", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 30", $time, int_ID);
+            $display("  *** time : %0t\n  FAIL: Claimed %0d instead of 30", $time, uut.Output_wrapper.intrupt_ID);
         repeat (2) @(posedge clk);
-        complete(int_ID);
+        complete(uut.Output_wrapper.intrupt_ID);
         repeat (4) @(posedge clk);
         end
     endtask
@@ -396,23 +353,22 @@ module plic_tb ();
         int_sig = 31'b1100000000000000000000000000000; 
         #20; 
         claim();
-        @(posedge clk); 
         $display("Source 31 , 30 asserted interrupt requests.");
-        $display("Claimed %0d ",  int_ID);
+        $display("Claimed %0d ",  uut.Output_wrapper.intrupt_ID);
         
         complete(32'd0);         //ID = 0 isn’t written to the claim-complete register
         @(posedge clk);
         if(uut.plic.plic.claim_complete != 0)
             $display("  *** time : %0t\n  PASS: The invalid complete ID = 0 has not been written to the claim/complete register.", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 30", $time, uut.plic.plic.claim_complete);  
+            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 30", $time, uut.plic.claim_complete);  
 
         complete (32'b0000000000000000000000000000011);  //ID = 3 isn’t written to the claim-complete register because it is not claimed
         @(posedge clk);
         if(uut.plic.plic.claim_complete != 32'b0000000000000000000000000000011)
             $display("  *** time : %0t\n  PASS: The invalid complete ID = 3 (unclaimed) has not been written to the claim/complete register.", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 30", $time, uut.plic.plic.claim_complete);
+            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 30", $time, uut.plic.claim_complete);
 
         for (i = 0; i < NUM_WORDS; i = i + 1) begin
             addr = PLIC_ENABLE_START_ADDR + (i * 4);
@@ -423,25 +379,27 @@ module plic_tb ();
 
         complete (32'b0000000000000000000000000011111);  //ID = 30 which is claimed, isn’t written to the claim-complete register because of being disabled
         @(posedge clk);
-        if(uut.plic.plic.claim_complete != 32'b0000000000000000000000000011111)
+        if(uut.plic.claim_complete != 32'b0000000000000000000000000011111)
             $display("  *** time : %0t\n  PASS: The invalid complete ID = 31 (claimed but disabled) has not been written to the claim/complete register.", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 30", $time, uut.plic.plic.claim_complete);
+            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 30", $time, uut.plic.claim_complete);
 
-        for (i = 0; i < NUM_WORDS; i = i + 1)   //enable all again
-        begin
+        for (i = 0; i < NUM_WORDS; i = i + 1) begin
             addr = PLIC_ENABLE_START_ADDR + (i * 4);
             write_reg(addr, 32'hFFFFFFFF);
         end
         @(posedge clk);
         $display("All sources enabled.");
+        $display("threshold is : %0d", uut.plic.threshold);
 
         complete(32'b00000000000000000000000000011111);
         @(posedge clk);
-                if(uut.plic.plic.claim_complete == 32'b0000000000000000000000000011111)
+        @(posedge clk);
+        @(posedge clk);
+                if(uut.plic.claim_complete == 32'b0000000000000000000000000011111)
             $display("  *** time : %0t\n  PASS: Valid complete ID = 31 has been written to the claim/complete register.", $time);
         else
-            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 31", $time, uut.plic.plic.claim_complete);
+            $display("  *** time : %0t\n  FAIL: Claim/complete register content : %0d instead of 31", $time, uut.plic.claim_complete);
     end
     endtask
 
@@ -466,7 +424,17 @@ module plic_tb ();
 
         test_threshold_enable();
         test_sequence();
+                rst = 1;
+        repeat (5) @(posedge clk);
+        rst = 0;
+        configure_plic();
+        repeat (5) @(posedge clk);
         check_complete_validity();
+                rst = 1;
+        repeat (5) @(posedge clk);
+        rst = 0;
+        configure_plic();
+        repeat (5) @(posedge clk);
         test_priority_change();
 
 

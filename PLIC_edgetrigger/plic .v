@@ -1,7 +1,5 @@
 `timescale 1ns / 1ps
 
-// This is a test comment to push to GitHub.
-
 module plic #(parameter NUM_SOURCES= 31)
 (
     input [31:0] mem_addr, mem_data, 
